@@ -21,14 +21,31 @@ public class Main {
         Person suzuki = new Person("鈴木", suzukiFavoriteFood, "70kg");
         personInfo.put("鈴木", suzuki);
 
-        long ramenLover = personInfo.entrySet().stream().filter(entry -> entry.getValue().getFavoriteFood().contains("ラーメン")).count();
-        long pizzaLover = personInfo.entrySet().stream().filter(entry -> entry.getValue().getFavoriteFood().contains("ピザ")).count();
-        System.out.println("ラーメン好きな人は " + ramenLover + " 人");
-        System.out.println("ピザが好きな人は " + pizzaLover + " 人");
+        long ramenLoverCount = personInfo.entrySet().stream().filter(entry -> entry.getValue().getFavoriteFood().contains("ラーメン")).count();
+        long pizzaLoverCount = personInfo.entrySet().stream().filter(entry -> entry.getValue().getFavoriteFood().contains("ピザ")).count();
+        System.out.println("ラーメン好きな人は " + ramenLoverCount + " 人");
+        System.out.println("ピザが好きな人は " + pizzaLoverCount + " 人");
 
         for (Person person : personInfo.values()) {
             System.out.println(person);
         }
+        double totalWeight = 0.0;
+        int personCount = 0;
+
+        for (Person person : personInfo.values()) {
+            String weightString = person.getWeight();
+            try {
+                double weight = Double.parseDouble(weightString.replace("kg", "").trim());
+                totalWeight += weight;
+                personCount++;
+            } catch (NumberFormatException e) {
+                System.out.println(person.getName() + "の体重が無効です");
+            }
+        }
+        double averageWeight = totalWeight / personCount;
+        System.out.println("平均体重：" + averageWeight + "kg");
     }
 }
+
+
 
